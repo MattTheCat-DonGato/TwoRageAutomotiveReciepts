@@ -1,0 +1,53 @@
+Changes To Be Made on TwoRageAutomotive Receipts (TwoRageAutomotiveReciepts v2.0)
+
+A. Store any new entries that invoices were made from scratch into perspective text files from create screen.	NOT FINISHED
+STEP 1: Change the MainMenuForm with so that there are check boxes next to the Create Invoice From Scratch button.
+STEP 2: If both are check/unchecked, or if one is on/off load the right form so the user may be able create the invoice desired with ease.
+STEP 3a: If the user is going to using text files for creating an invoice, make sure that the items are being populated correctly via dropboxes.
+STEP 4a: If a customer is selected, then load the next dropbox with the vehicles they own.
+STEP 3b: If entering data manually through textfields, and attempting to store them in their respective text file, be sure to compare the data entered with data related to each 
+record.
+STEP 4b: If a record is matched then the data should not be added to the file.
+STEP 4c: If the record is not there in the file, then add the data entered into their respective text files.
+STEP 5: Ensure that all the unique data, if any, is added to their perpsective files, and the invoice is stored into a text file for records as well as creating the pdf invoice.
+
+B. Add a feature to view, modify, and delete records of previous invoices, customers, vehicles, and ownerships.	NOT FINISHED
+STEP 1: Create a package called Records, with it own MVC software design pattern.
+STEP 2: Implement sorting methods that allows the user to check records based on Customer, Vehicle, Vehicle Ownership, and Invoice.
+STEP 3: Implement the abiltiy to modify records within the program.
+ 
+(All information will be recorded within one line. Each item will be seperated by a '|' pipe character as the seperator. 
+Once all info is added the next record will be recorded on a new line.)
+
+New Classes to be added to the program:
+
+Information Stored for Customer:
+Name
+Address
+City
+State
+Zip Code
+Contact Phone Number
+* 6 items per record per line *
+
+Information Stored for Vehicle:
+Year
+Make
+Model
+VIN
+* 4 items per record per line *
+
+Information Stored for Ownership:
+Name
+Year
+Make
+Model
+VIN
+License Plate
+Odometer
+* 6 items per record per line * 
+
+Information that will change for every Invoice:
+Recieved Date
+Labor Only
+Labor Service Costs
