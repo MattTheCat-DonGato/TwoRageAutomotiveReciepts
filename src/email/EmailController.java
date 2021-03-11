@@ -58,6 +58,9 @@ public class EmailController
                             attachFiles[0] = file.toString();            
                         }
                     TwoRageError.ErrorAlert("INFORMATION", "File Attached", "File " + attachFiles[0] + " has been attached to Email.");
+                    String fName = attachFiles[0];
+                    emailView.GetEmailForm().GetFileNameLabel().setText(fName);
+                    emailView.GetEmailForm().EmailFormWithFileName();
                 }
                 catch(Exception e)
                 {
@@ -69,56 +72,62 @@ public class EmailController
             @Override
             public void handle(ActionEvent event)
             {
-                if (emailView.GetEmailForm().GetEmailTF().getText().endsWith("@gmail.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@yahoo.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@hotmail.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@aol.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@outlook.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@msn.com"))
+                if(emailView.GetEmailForm().GetPassTF().getText().trim().length() != 0)
                 {
-                    if (emailView.GetEmailForm().GetSubjectTF().getText().trim().length() == 0)
+                    if (emailView.GetEmailForm().GetEmailTF().getText().endsWith("@gmail.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@yahoo.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@hotmail.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@aol.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@outlook.com") || emailView.GetEmailForm().GetEmailTF().getText().endsWith("@msn.com"))
                     {
-                        TwoRageError.ErrorAlert("ERROR", "Subject Field Empty", "Please enter a subject in the text field.");
-                    }
-                    else
-                    {
-                        if (attachFiles[0] == null)
+                        if (emailView.GetEmailForm().GetSubjectTF().getText().trim().length() == 0)
                         {
-                            TwoRageError.ErrorAlert("ERROR", "File Not Selected", "Choose a file to attach to the email.");
+                            TwoRageError.ErrorAlert("ERROR", "Subject Field Empty", "Please enter a subject in the text field.");
                         }
                         else
                         {
-                            try
+                            if (attachFiles[0] == null)
                             {
-                                Email myEmail = new Email();
-                                myEmail.setHost("smtp.gmail.com");
-                                String host = myEmail.getHost();
-                                myEmail.setPort("465");
-                                String port = myEmail.getPort();
-                                myEmail.setMailFrom("tworageautomotive96@gmail.com");
-                                String mailFrom = myEmail.getMailFrom();
-                                myEmail.setPassword("tworage_96");
-                                String password = myEmail.getPassword();
-                                String toAddress = emailView.GetEmailForm().GetEmailTF().getText();
-                                String subject = emailView.GetEmailForm().GetSubjectTF().getText();
-                                String message = emailView.GetEmailForm().GetMessageTA().getText();                           
-                                EmailAttachmentSender.sendEmailWithAttachments(host, port, mailFrom, password, toAddress, subject, message, attachFiles);
-                                TwoRageError.ErrorAlert("INFORMATION", "Email Sent", "Email has been sent to: " + toAddress);
-                                if(attachFiles != null)
-                                    for (int i = 0; i < attachFiles.length; i++)
-                                    {
-                                        attachFiles[i] = null;
-                                    }
-                                emailView.GetEmailForm().clearTF();
+                                TwoRageError.ErrorAlert("ERROR", "File Not Selected", "Choose a file to attach to the email.");
                             }
-                            catch (Exception e)
+                            else
                             {
-                                TwoRageError.ErrorAlert("ERROR", "Sending Email Failed", "Email couldn't be sent because the email provided does not exist or an internet connection could not be established."
-                                        + "Please check your network settings and verify that the email address is correct before retrying."
-                                        + "If issues continue to happen please send an email from your personal device to: mattrodriguez64@gmail.com for more help.");
+                                try
+                                {
+                                    Email myEmail = new Email();
+                                    myEmail.setHost("smtp.gmail.com");
+                                    String host = myEmail.getHost();
+                                    myEmail.setPort("465");
+                                    String port = myEmail.getPort();
+                                    myEmail.setMailFrom("mattrodriguez64@gmail.com");
+                                    String mailFrom = myEmail.getMailFrom();
+                                    String password = emailView.GetEmailForm().GetPassTF().getText();
+                                    String toAddress = emailView.GetEmailForm().GetEmailTF().getText();
+                                    String subject = emailView.GetEmailForm().GetSubjectTF().getText();
+                                    String message = emailView.GetEmailForm().GetMessageTA().getText();                           
+                                    EmailAttachmentSender.sendEmailWithAttachments(host, port, mailFrom, password, toAddress, subject, message, attachFiles);
+                                    TwoRageError.ErrorAlert("INFORMATION", "Email Sent", "Email has been sent to: " + toAddress);
+                                    if(attachFiles != null)
+                                        for (int i = 0; i < attachFiles.length; i++)
+                                        {
+                                            attachFiles[i] = null;
+                                        }
+                                    emailView.GetEmailForm().clearTF();
+                                    emailView.GetEmailForm().GetFileNameLabel().setText("No File Selected");
+                                }
+                                catch (Exception e)
+                                {
+                                    TwoRageError.ErrorAlert("ERROR", "Sending Email Failed", "Email couldn't be sent because an internet connection could not be established or the app password is incorrect."
+                                            + "Please check your network settings and verify that the app password is correct before retrying.");
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                    TwoRageError.ErrorAlert("ERROR", "Invalid Email Address", "Please enter a valid email address suffix.");
                     }
                 }
                 else
                 {
-                    TwoRageError.ErrorAlert("INFORMATION", "Invalid Email Address", "Please enter a valid email address suffix.");
-                }   
+                    TwoRageError.ErrorAlert("ERROR", "Password blank", "The App Password cannot be left blank. Please input the App Password to send the email through this account.");
+                }
             }
         });
         emailView.GetEmailForm().GetReturnButton().setOnAction(new EventHandler<ActionEvent>() {
@@ -130,8 +139,9 @@ public class EmailController
                    for (int i = 0; i < attachFiles.length; i++)
                    {
                        attachFiles[i] = null;
-                   }  
-               mainStage.setScene(mainMenuScene);
+                   }
+               emailView.GetEmailForm().GetFileNameLabel().setText("No File Selected");
+               mainStage.setScene(mainMenuScene);     
             }
         });
     }
