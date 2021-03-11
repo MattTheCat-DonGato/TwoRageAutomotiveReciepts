@@ -37,21 +37,48 @@ public class EmailForm extends GridPane
     private Button returnButton = new Button("Return to Main Menu");
 
     // Labels
-     private Label emailLabel = new Label("Email Address");
+     private Label emailLabel = new Label("Recipient Email Address");
+     private Label fileNameLabel = new Label("No File Selected");
      private Label messageLabel = new Label("Message");
      private Label subjectLabel = new Label("Subject");
+     private Label passLabel = new Label("App Password");
 
     // TextFields
     private TextField emailTF = new TextField();
     private TextField subjectTF = new TextField();
-    private TextArea messageTA = new TextArea();   
+    private TextArea messageTA = new TextArea();
+    private TextField passTF = new TextField();
     
     public EmailForm()
     {
-        this.setHgap(15);  
-        emailContentBox.getChildren().addAll(emailLabel,emailTF,subjectLabel,subjectTF,messageLabel,messageTA);
-        buttonBox.getChildren().addAll(selectFileButton,sendEmailButton,returnButton);
+        VBox emailContentBox = new VBox(15);
+        VBox buttonBox = new VBox(25);
+        HBox groupedBoxes = new HBox(20);
+        emailContentBox.getChildren().addAll(passLabel,passTF,emailLabel,emailTF,subjectLabel,subjectTF,messageLabel,messageTA);
+        buttonBox.getChildren().addAll(selectFileButton,fileNameLabel,sendEmailButton,returnButton);
         buttonBox.setAlignment(Pos.CENTER);
+        //add everything
+        this.getChildren().clear();
+        this.setHgap(15); 
+        groupedBoxes.getChildren().addAll(emailContentBox,buttonBox);     
+        this.add(groupedBoxes, 0, 0);
+        this.setAlignment(Pos.CENTER);
+    }
+    
+    /*
+        Called Function to refresh file name
+    */
+    public void EmailFormWithFileName()
+    {
+        VBox emailContentBox = new VBox(15);
+        VBox buttonBox = new VBox(25);
+        HBox groupedBoxes = new HBox(20); 
+        emailContentBox.getChildren().addAll(passLabel,passTF,emailLabel,emailTF,subjectLabel,subjectTF,messageLabel,messageTA);
+        buttonBox.getChildren().addAll(selectFileButton,fileNameLabel,sendEmailButton,returnButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        //add everything
+        this.getChildren().clear();
+        this.setHgap(15); 
         groupedBoxes.getChildren().addAll(emailContentBox,buttonBox);     
         this.add(groupedBoxes, 0, 0);
         this.setAlignment(Pos.CENTER);
@@ -257,5 +284,33 @@ public class EmailForm extends GridPane
     public void setEmailTF(TextField emailTF)
     {
         this.emailTF = emailTF;
+    }
+
+    public Label GetPassLabel() 
+    {
+        return passLabel;
+    }
+
+    public void SetPassLabel(Label passLabel) 
+    {
+        this.passLabel = passLabel;
+    }
+
+    public TextField GetPassTF() 
+    {
+        return passTF;
+    }
+
+    public void SetPassTF(TextField passTF) 
+    {
+        this.passTF = passTF;
+    }
+
+    public Label GetFileNameLabel() {
+        return fileNameLabel;
+    }
+
+    public void SetFileNameLabel(Label fileNameLabel) {
+        this.fileNameLabel = fileNameLabel;
     }
 }
